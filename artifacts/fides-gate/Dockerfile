@@ -1,4 +1,4 @@
-FROM node:22-alpine AS build
+FROM node:22 AS build
 WORKDIR /app
 RUN corepack enable
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml tsconfig.base.json tsconfig.json ./
@@ -12,7 +12,7 @@ ENV PORT=23502
 ENV BASE_PATH=/
 RUN pnpm --filter @workspace/fides-gate run build
 
-FROM node:22-alpine
+FROM node:22
 WORKDIR /app
 COPY --from=build /app/artifacts/fides-gate/dist/public ./dist/public
 RUN npm install -g serve
