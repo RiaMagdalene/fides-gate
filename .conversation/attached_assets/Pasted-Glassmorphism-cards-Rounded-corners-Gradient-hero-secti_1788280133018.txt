@@ -1,0 +1,233 @@
+Glassmorphism cards.
+Rounded corners.
+Gradient hero section.
+Cybersecurity illustrations.
+Animated glowing borders.
+
+---
+
+## Landing Page
+
+Create a modern landing page.
+
+Sections:
+
+1. Hero with animated gateway.
+2. How AI crawlers work.
+3. Trust Gap illustration.
+4. Fides Gate Solution.
+5. Architecture animation.
+6. Features cards.
+7. Demo CTA.
+
+Animations while scrolling.
+
+---
+
+## Authentication
+
+Publisher Login
+Publisher Signup
+
+Store publishers in database.
+
+---
+
+## Dashboard
+
+Build a beautiful dashboard.
+
+Top Cards:
+
+* Total Requests
+* Identity Verified
+* Unverified / Fallback
+* Canary Reuse Detected
+* Active Crawlers
+* Trust Score Average
+
+Cards animate.
+
+Realtime counters.
+
+---
+
+## Sidebar
+
+Dashboard
+Live Requests
+Crawler Registry
+Publisher Policies
+Threat Analytics
+Canary Detector
+Audit Ledger
+Revenue / Licensing
+Settings
+
+---
+
+## Live Requests Page
+
+Display request table.
+
+Columns:
+
+Time
+Crawler ID
+Declared Intent
+Identity Verification
+Resolved Tier
+Status Code
+Evidence Hash
+Trust Score
+
+Use colored badges.
+
+Green Verified
+Red Invalid
+Orange Training
+Purple Canary
+
+Auto refresh every few seconds.
+
+---
+
+## Refresh Button
+
+Refresh fetches latest backend logs.
+
+Also provide Auto Refresh toggle.
+
+---
+
+## Simulate Requests Panel
+
+Create buttons:
+
+Generate Search Request
+Generate RAG Request
+Generate Training Request
+Generate Spoofed Request
+Generate Dataset Request
+Generate Canary Leak
+
+Each button sends POST request.
+
+Dashboard updates immediately.
+
+---
+
+## Crawler Registry Page
+
+Show registered crawlers.
+
+search-bot-01
+rag-bot-01
+dataset-bot-01
+
+Spoofed crawler appears separately.
+
+Fields:
+
+Crawler ID
+Public Key
+Trust Score
+Status
+Purpose
+
+Ability to add crawler.
+
+---
+
+## Identity Verification Engine
+
+Implement simulated cryptographic verification.
+
+Each crawler has:
+
+Public Key
+Private Key
+Signature
+
+Verify signature.
+
+Cases:
+
+Verified.
+Wrong signature.
+Unknown crawler.
+Expired key.
+
+Fail Closed policy.
+
+---
+
+## Intent Router
+
+Support intents:
+
+Search
+RAG
+Training
+Dataset
+Other
+
+Route request.
+
+---
+
+## Publisher Policy Engine
+
+Publisher can configure policies.
+
+Example:
+
+Search -> Snippet
+
+RAG -> Full Content + Canary
+
+Training -> 402 Payment Required
+
+Dataset -> Restricted
+
+Unknown -> Blocked
+
+Use toggle switches.
+
+Drag-and-drop policy builder.
+
+---
+
+## Payload Transformer
+
+Transform response according to policy.
+
+Return:
+
+Snippet only.
+Summary only.
+Full article.
+Watermarked article.
+403 Block.
+402 License Required.
+
+Display preview.
+
+---
+
+## Provenance Canary
+
+Generate invisible semantic canary.
+
+Each response gets:
+
+Unique Canary ID.
+Timestamp.
+Crawler ID.
+Request Hash.
+
+Display hidden marker panel.
+
+---
+
+## Canary Detector

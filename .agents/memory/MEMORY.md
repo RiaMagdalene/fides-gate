@@ -1,0 +1,1 @@
+- [OpenAPI numeric schemas](openapi-zod-compatibility.md) — this workspace's generated Zod client is Zod 3, so integer schemas emit incompatible zod.int() calls.

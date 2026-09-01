@@ -3,13 +3,23 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: Fides Gate crawler verification and accountability API
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: dashboard
+    description: Live dashboard data
+  - name: simulation
+    description: Demo request simulations
+  - name: ledger
+    description: Public accountability ledger
+  - name: policy
+    description: Publisher policy configuration
+  - name: canary
+    description: Canary detection utilities
 paths:
   /healthz:
     get:
@@ -24,6 +34,183 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /dashboard:
+    get:
+      operationId: getDashboard
+      tags: [dashboard]
+      summary: Get dashboard snapshot
+      responses:
+        "200":
+          description: Dashboard snapshot
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Dashboard"
+  /requests:
+    get:
+      operationId: getRequests
+      tags: [dashboard]
+      summary: List recent crawler requests
+      responses:
+        "200":
+          description: Recent requests
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/RequestEvent"
+  /crawlers:
+    get:
+      operationId: getCrawlers
+      tags: [dashboard]
+      summary: List registered crawlers
+      responses:
+        "200":
+          description: Registered crawlers
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Crawler"
+  /analytics:
+    get:
+      operationId: getAnalytics
+      tags: [dashboard]
+      summary: Get threat analytics
+      responses:
+        "200":
+          description: Analytics data
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Analytics"
+  /ledger:
+    get:
+      operationId: getLedger
+      tags: [ledger]
+      summary: Get public accountability ledger events
+      responses:
+        "200":
+          description: Ledger events
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/LedgerEvent"
+  /policies:
+    get:
+      operationId: getPolicies
+      tags: [policy]
+      summary: Get publisher policies
+      responses:
+        "200":
+          description: Publisher policies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Policy"
+    patch:
+      operationId: updatePolicies
+      tags: [policy]
+      summary: Update publisher policies
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PolicyUpdate"
+      responses:
+        "200":
+          description: Updated publisher policies
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Policy"
+  /simulate/search:
+    post:
+      operationId: simulateSearch
+      tags: [simulation]
+      summary: Simulate a verified search request
+      responses:
+        "200":
+          description: Simulation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SimulationResult"
+  /simulate/rag:
+    post:
+      operationId: simulateRag
+      tags: [simulation]
+      summary: Simulate a verified RAG request
+      responses:
+        "200":
+          description: Simulation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SimulationResult"
+  /simulate/spoof:
+    post:
+      operationId: simulateSpoof
+      tags: [simulation]
+      summary: Simulate an invalid signature spoofing attempt
+      responses:
+        "200":
+          description: Simulation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SimulationResult"
+  /simulate/training:
+    post:
+      operationId: simulateTraining
+      tags: [simulation]
+      summary: Simulate a training request requiring a license
+      responses:
+        "200":
+          description: Simulation result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SimulationResult"
+  /demo/reset:
+    post:
+      operationId: resetDemo
+      tags: [simulation]
+      summary: Reset the demo ledger to clean seed data
+      responses:
+        "200":
+          description: Reset result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DemoReset"
+  /canary/scan:
+    post:
+      operationId: scanCanary
+      tags: [canary]
+      summary: Scan text for known semantic canaries
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CanaryScanInput"
+      responses:
+        "200":
+          description: Canary scan result
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CanaryScanResult"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +220,212 @@ components:
           type: string
       required:
         - status
+    Dashboard:
+      type: object
+      required: [summary, requests, ledger, policies, crawlers, canary]
+      properties:
+        summary:
+          $ref: "#/components/schemas/Summary"
+        requests:
+          type: array
+          items:
+            $ref: "#/components/schemas/RequestEvent"
+        ledger:
+          type: array
+          items:
+            $ref: "#/components/schemas/LedgerEvent"
+        policies:
+          type: array
+          items:
+            $ref: "#/components/schemas/Policy"
+        crawlers:
+          type: array
+          items:
+            $ref: "#/components/schemas/Crawler"
+        canary:
+          $ref: "#/components/schemas/CanaryStatus"
+    Summary:
+      type: object
+      required: [totalRequests, verified, fallback, canaryDetections, activeCrawlers, trustScore, blocked]
+      properties:
+        totalRequests: { type: number }
+        verified: { type: number }
+        fallback: { type: number }
+        canaryDetections: { type: number }
+        activeCrawlers: { type: number }
+        trustScore: { type: number }
+        blocked: { type: number }
+    RequestEvent:
+      type: object
+      required: [id, timestamp, crawlerId, crawlerName, intent, identity, tier, status, evidenceHash, trustScore, action, location]
+      properties:
+        id: { type: string }
+        timestamp: { type: string }
+        crawlerId: { type: string }
+        crawlerName: { type: string }
+        intent: { type: string }
+        identity: { type: string }
+        tier: { type: string }
+        status: { type: number }
+        evidenceHash: { type: string }
+        trustScore: { type: number }
+        action: { type: string }
+        location: { type: string }
+    Crawler:
+      type: object
+      required: [id, name, key, status, purpose, trustScore, requests, lastSeen, accent]
+      properties:
+        id: { type: string }
+        name: { type: string }
+        key: { type: string }
+        status: { type: string }
+        purpose: { type: string }
+        trustScore: { type: number }
+        requests: { type: number }
+        lastSeen: { type: string }
+        accent: { type: string }
+    Policy:
+      type: object
+      required: [intent, label, action, description, enabled, tone]
+      properties:
+        intent: { type: string }
+        label: { type: string }
+        action: { type: string }
+        description: { type: string }
+        enabled: { type: boolean }
+        tone: { type: string }
+    PolicyUpdate:
+      type: object
+      required: [policies]
+      properties:
+        policies:
+          type: array
+          items:
+            $ref: "#/components/schemas/Policy"
+    LedgerEvent:
+      type: object
+      required: [id, event, crawler, publisher, intent, timestamp, action, violation, hash, previousHash, status]
+      properties:
+        id: { type: string }
+        event: { type: string }
+        crawler: { type: string }
+        publisher: { type: string }
+        intent: { type: string }
+        timestamp: { type: string }
+        action: { type: string }
+        violation: { type: string }
+        hash: { type: string }
+        previousHash: { type: string }
+        status: { type: string }
+    Analytics:
+      type: object
+      required: [volume, intent, hourly, trustLeaderboard, violations]
+      properties:
+        volume:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChartPoint"
+        intent:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChartPoint"
+        hourly:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChartPoint"
+        trustLeaderboard:
+          type: array
+          items:
+            $ref: "#/components/schemas/LeaderboardEntry"
+        violations:
+          type: array
+          items:
+            $ref: "#/components/schemas/ChartPoint"
+    ChartPoint:
+      type: object
+      required: [label, value]
+      properties:
+        label: { type: string }
+        value: { type: number }
+        verified: { type: number }
+        invalid: { type: number }
+    LeaderboardEntry:
+      type: object
+      required: [name, score, requests, violations, status]
+      properties:
+        name: { type: string }
+        score: { type: number }
+        requests: { type: number }
+        violations: { type: number }
+        status: { type: string }
+    CanaryStatus:
+      type: object
+      required: [status, crawler, session, confidence, matchedSignals]
+      properties:
+        status: { type: string }
+        crawler: { type: string }
+        session: { type: string }
+        confidence: { type: number }
+        matchedSignals:
+          type: array
+          items: { type: string }
+    SimulationResult:
+      type: object
+      required: [request, message, payload, canary, evidence, steps]
+      properties:
+        request:
+          $ref: "#/components/schemas/RequestEvent"
+        message: { type: string }
+        payload: { type: string }
+        canary:
+          $ref: "#/components/schemas/CanaryStatus"
+        evidence:
+          $ref: "#/components/schemas/Evidence"
+        steps:
+          type: array
+          items:
+            $ref: "#/components/schemas/GateStep"
+    GateStep:
+      type: object
+      required: [label, detail, status]
+      properties:
+        label: { type: string }
+        detail: { type: string }
+        status: { type: string }
+    Evidence:
+      type: object
+      required: [hash, contentHash, timestamp, crawler, publisher]
+      properties:
+        hash: { type: string }
+        contentHash: { type: string }
+        timestamp: { type: string }
+        crawler: { type: string }
+        publisher: { type: string }
+    CanaryScanInput:
+      type: object
+      required: [text]
+      properties:
+        text: { type: string }
+    CanaryScanResult:
+      type: object
+      required: [detected, status, crawler, session, confidence, matchedSignals, evidence]
+      properties:
+        detected: { type: boolean }
+        status: { type: string }
+        crawler: { type: string }
+        session: { type: string }
+        confidence: { type: number }
+        matchedSignals:
+          type: array
+          items: { type: string }
+        evidence:
+          $ref: "#/components/schemas/Evidence"
+    DemoReset:
+      type: object
+      required: [status, message, dashboard]
+      properties:
+        status: { type: string }
+        message: { type: string }
+        dashboard:
+          $ref: "#/components/schemas/Dashboard"
 

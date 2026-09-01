@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Fides Gate"
+description = "A live AI crawler verification console that authenticates crawler identity, routes intent, embeds forensic canaries, and records a tamper-evident accountability ledger."
+version = "1.0.0"
+id = "artifacts/fides-gate"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 23502
+
+[services.development]
+run = "pnpm --filter @workspace/fides-gate run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/fides-gate", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/fides-gate/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "23502"
+BASE_PATH = "/"

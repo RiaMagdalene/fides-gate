@@ -1,0 +1,260 @@
+## Canary Detector
+
+Simulate leaked dataset upload.
+
+Upload text.
+
+Scan for Canary IDs.
+
+If found:
+
+Show alert.
+
+Crawler responsible.
+
+Evidence hash.
+
+Severity.
+
+Generate incident card.
+
+---
+
+## Evidence Generator
+
+Generate SHA256 evidence hash.
+
+Show:
+
+Evidence Hash
+Crawler
+Publisher
+Timestamp
+Content Hash
+
+Download JSON report.
+
+Download PDF report.
+
+---
+
+## Public Ledger
+
+Immutable timeline UI.
+
+Timeline of events.
+
+Columns:
+
+Crawler
+Publisher
+Intent
+Timestamp
+Evidence Hash
+Violation
+
+Blockchain-style visualization.
+
+---
+
+## Threat Analytics
+
+Beautiful analytics page.
+
+Charts:
+
+Requests Over Time.
+Verified vs Invalid Pie Chart.
+Intent Distribution.
+Violations Per Hour.
+Trust Score Leaderboard.
+
+Use Recharts.
+
+---
+
+## AI Trust Score
+
+Calculate trust score.
+
+Factors:
+
+Verification success.
+Violation history.
+Rate limiting.
+Spoof attempts.
+
+Gauge Meter.
+
+Leaderboard.
+
+---
+
+## Live Threat Map
+
+World map with crawler requests.
+
+Pins appear with animation.
+
+Red suspicious.
+Green verified.
+
+Hover shows crawler info.
+
+---
+
+## Notifications
+
+Toast notifications.
+
+Examples:
+
+Verified Request.
+Spoof Attempt Detected.
+Training Request Blocked.
+Canary Leak Detected.
+
+Sound optional.
+
+---
+
+## AI Assistant
+
+Chatbot inside dashboard.
+
+Ask:
+
+Show suspicious crawlers.
+Explain today's violations.
+Summarize analytics.
+Recommend stricter policy.
+
+Use OpenAI placeholder.
+
+---
+
+## API Endpoints
+
+POST /request
+GET /dashboard
+GET /logs
+POST /verify
+POST /simulate/search
+POST /simulate/rag
+POST /simulate/spoof
+POST /simulate/training
+POST /simulate/canary
+GET /ledger
+GET /analytics
+
+Return JSON.
+
+---
+
+## Backend Folder Structure
+
+backend/
+controllers/
+routes/
+middleware/
+services/
+utils/
+keys/
+database/
+logs/
+server.js
+
+Frontend Folder Structure
+
+frontend/
+pages/
+components/
+hooks/
+services/
+assets/
+animations/
+charts/
+App.jsx
+
+---
+
+## Animations
+
+Use Framer Motion.
+
+Animated counters.
+Sliding tables.
+Glowing buttons.
+Request stream animation.
+Typing chatbot.
+Loading gateway animation.
+
+---
+
+## Accessibility
+
+Dark mode.
+Light mode.
+Responsive desktop/mobile.
+Keyboard shortcuts.
+
+---
+
+## Demo Data
+
+Generate random requests every refresh.
+
+Possible events:
+
+Verified Search.
+Verified RAG.
+Training Blocked.
+Spoofed Crawler.
+Wrong Signature.
+Canary Reuse.
+
+Counters update automatically.
+
+---
+
+## Hackathon Wow Features
+
+1. AI Trust Score Gauge.
+2. Canary Leak Detector.
+3. Evidence PDF Generator.
+4. Public Ledger Timeline.
+5. Live Threat Map.
+6. Animated Gateway Verification.
+7. Revenue Licensing Dashboard.
+8. Voice Assistant (optional).
+9. Auto-refresh Live Monitoring.
+10. Glassmorphism Premium UI.
+
+---
+
+## Output Requirements
+
+Generate complete frontend and backend code.
+
+Create README with setup instructions.
+
+Provide Docker support.
+
+Provide sample database.
+
+Provide demo JSON requests.
+
+Everything should run locally using:
+
+npm install
+npm run dev
+
+Backend:
+
+node server.js
+
+Frontend:
+
+npm run dev
+
+The project should feel like a real cybersecurity startup product suitable for CSI-VIT Hackverse judging.

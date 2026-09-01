@@ -1,10 +1,11 @@
-# [Project name]
+# Fides Gate
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Fides Gate verifies AI crawler identity before allowing content access, routes payloads by intent, preserves forensic signals, and records accountability events.
 
 ## Run & Operate
 
 - `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/fides-gate run dev` — run the Fides Gate web console
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
@@ -22,23 +23,35 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/fides-gate/src/App.tsx` — routed landing page and control room UI
+- `artifacts/fides-gate/src/index.css` — Fides Gate theme, glass surfaces, and motion primitives
+- `artifacts/api-server/src/lib/fides-data.ts` — seeded demo state, simulation engine, hash-chain records, and canary scanner
+- `artifacts/api-server/src/routes/fides.ts` — dashboard, simulation, policy, analytics, canary, and ledger endpoints
+- `lib/api-spec/openapi.yaml` — source-of-truth API contract
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Demo state is intentionally seeded in memory so the hackathon console boots without external setup; API boundaries are still contract-first.
+- Invalid crawler identity always resolves to the strictest payload tier, regardless of the declared intent.
+- The public ledger is presented as a readable hash chain, not as a blockchain or smart-contract system.
+- The UI polls live API queries on short intervals so the demo behaves like a live stream without requiring a separate realtime broker.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- Public landing page with “verify first” positioning
+- Publisher control room with trust score, live request activity, policy router, and one-click four-scenario demo
+- Request stream, crawler registry, intent policies, analytics, canary detector, public ledger, architecture, and settings views
+- API simulation routes for verified search, verified RAG, spoofed crawler, training licensing, demo reset, and canary scan
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Premium dark glass UI, rounded editorial cards, cyan/mint/indigo signal colors, Inter body typography, and Silkscreen display labels
+- Motion and hover feedback should make verification states visible without hurting scanability
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Regenerate API client and Zod code after every OpenAPI change.
+- The shared API is mounted at `/api`; frontend requests use generated hooks and must not hardcode service ports.
 
 ## Pointers
 
