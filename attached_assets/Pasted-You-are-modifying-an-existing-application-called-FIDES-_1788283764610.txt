@@ -1,0 +1,921 @@
+You are modifying an existing application called FIDES GATE.
+
+IMPORTANT:
+Do NOT rebuild the application from scratch.
+Do NOT remove working backend functionality.
+Do NOT change the core security logic unless required to fix a bug.
+First inspect the existing codebase, routes, components, styling system, API endpoints, and current data structures.
+Then refactor the UI/UX so the product clearly communicates the actual FIDES GATE concept.
+
+==================================================
+PRODUCT DEFINITION
+==================================================
+
+FIDES GATE is NOT a generic cybersecurity dashboard.
+
+FIDES GATE is a verification and accountability gateway that sits between publishers and AI crawlers.
+
+Its core purpose is:
+
+1. Verify WHO the crawler is.
+2. Determine WHAT the crawler claims it wants.
+3. Apply an access policy based on VERIFIED identity + declared intent.
+4. Provide the appropriate content payload.
+5. Add forensic signals where appropriate.
+6. Record suspicious/violating activity in a public accountability ledger.
+
+The central security principle is:
+
+"Never trust crawler intent without verified crawler identity."
+
+The key attack that FIDES GATE demonstrates is:
+
+A crawler claims:
+X-Purpose: rag
+
+but has no valid registered Ed25519 signature.
+
+FIDES GATE must NOT trust the claim.
+
+It must automatically apply the strictest policy and create a ledger event.
+
+This attack-and-detection flow is the central story of the product.
+
+==================================================
+CURRENT UI PROBLEM
+==================================================
+
+The current UI is visually polished but feels like an oversized enterprise cybersecurity/SOC platform.
+
+There are too many concepts competing for attention:
+
+- Control room
+- Request stream
+- Crawler registry
+- Intent policies
+- Threat analytics
+- Canary detector
+- Public ledger
+- Architecture
+- Settings
+- block height
+- chain integrity
+- trust history
+- request counts
+- various unrelated metrics
+
+This makes the product harder to understand.
+
+Do NOT simply add more cards or metrics.
+
+Simplify the application around the actual FIDES GATE story.
+
+The final product should feel like:
+
+"AI Content Verification Gateway"
+
+rather than:
+
+"Enterprise Cybersecurity Operating System."
+
+==================================================
+DESIGN DIRECTION
+==================================================
+
+KEEP the existing visual language where it is good:
+
+- dark background
+- premium cybersecurity aesthetic
+- subtle teal/cyan accents
+- glowing status indicators
+- clean cards
+- technical typography
+- restrained animations
+- professional infrastructure/SaaS appearance
+
+Do NOT make the UI flashy, gaming-like, or overloaded with neon.
+
+Do NOT redesign the entire visual identity unnecessarily.
+
+Instead, simplify the information architecture and hierarchy.
+
+The product should immediately communicate:
+
+WHO ARE YOU?
+WHAT DO YOU WANT?
+WHAT ARE YOU ALLOWED TO RECEIVE?
+WHAT HAPPENED?
+
+==================================================
+PRIMARY NAVIGATION
+==================================================
+
+Reduce the primary navigation to these sections:
+
+OPERATIONS
+1. Control Room
+2. Request Stream
+
+SECURITY
+3. Crawler Registry
+4. Access Policies
+
+ACCOUNTABILITY
+5. Public Ledger
+
+Keep Settings available but make it secondary.
+
+Do NOT make these primary navigation items:
+
+- Threat Analytics
+- Canary Detector
+- Architecture
+
+If these existing pages contain useful functionality, preserve that functionality but move it into appropriate contextual areas.
+
+For example:
+
+Canary Detector should be accessible from a request's forensic evidence/details view.
+
+Architecture can be moved to an informational/help area or secondary page.
+
+Threat analytics can be removed from the main navigation unless it is backed by real functionality and directly helps explain the product.
+
+==================================================
+CONTROL ROOM — MAKE THIS THE MAIN HOME PAGE
+==================================================
+
+The Control Room should be the first page users see.
+
+Its job is to explain FIDES GATE within approximately 10 seconds.
+
+At the top show:
+
+FIDES GATE
+AI CONTENT VERIFICATION GATEWAY
+
+Subtitle:
+
+"Verify crawler identity. Control content access. Create accountable evidence."
+
+Show a clear operational status:
+
+FIDES GATE OPERATIONAL
+LIVE VERIFICATION ACTIVE
+
+Then show only a few useful high-level metrics:
+
+- Verified Crawlers
+- Requests Today
+- Unverified/Downgraded Requests
+- Ledger Events
+
+Do NOT show fake-looking metrics.
+Do NOT invent meaningless percentages.
+Do NOT show blockchain metrics.
+
+Then make the main visual component a LIVE VERIFICATION panel.
+
+Example:
+
+LIVE REQUEST
+
+Crawler:
+ClaudeBot
+
+Identity:
+✓ VERIFIED
+
+Claimed Intent:
+RAG
+
+Policy:
+FULL CONTENT + FORENSIC CANARY
+
+Decision:
+✓ ALLOWED
+
+Then immediately below it show a security event:
+
+RECENT SECURITY EVENT
+
+Crawler:
+Unknown / Spoofed
+
+Claimed Intent:
+RAG
+
+Identity:
+✕ INVALID SIGNATURE
+
+Decision:
+STRICTEST POLICY APPLIED
+
+Ledger:
+✓ EVENT RECORDED
+
+Button:
+
+VIEW PUBLIC LEDGER
+
+The homepage should make the core concept obvious.
+
+==================================================
+CRAWLER REGISTRY
+==================================================
+
+Keep the Crawler Registry.
+
+This is an important part of FIDES GATE.
+
+However, simplify the crawler cards.
+
+The primary question should be:
+
+"Can FIDES GATE trust this crawler?"
+
+Each crawler should clearly show:
+
+Crawler name
+Identity status
+Ed25519 verification status
+Public key
+Allowed/declared intents
+Last seen
+
+Example:
+
+GPTBOT
+
+✓ VERIFIED
+
+Ed25519 Signature
+VALID
+
+Public Key
+ed25519:7f8a...a91c
+
+Declared / Supported Intent
+SEARCH · RAG
+
+Last Seen
+12 sec ago
+
+For the spoofed crawler:
+
+UNKNOWN / SPOOFED
+
+✕ UNVERIFIED
+
+Signature
+INVALID
+
+Public Key
+NOT REGISTERED
+
+Intent
+UNTRUSTED
+
+Access
+STRICTEST POLICY
+
+Make verified vs unverified visually obvious.
+
+Use green/teal for verified.
+Use restrained red/orange for invalid/untrusted.
+
+Do NOT overload every card with:
+
+- huge request counts
+- trust-history bars
+- decorative analytics
+- unnecessary statistics
+
+If request history is already implemented and useful, move it into a crawler detail view.
+
+==================================================
+MOST IMPORTANT UI CHANGE:
+DECLARED INTENT VS VERIFIED IDENTITY
+==================================================
+
+This distinction must be visually obvious throughout the application.
+
+Whenever showing a request, show both:
+
+DECLARED INTENT
+and
+VERIFIED IDENTITY
+
+Example:
+
+DECLARED INTENT
+RAG
+
+VERIFIED IDENTITY
+✓ VALID
+
+or:
+
+DECLARED INTENT
+RAG
+
+VERIFIED IDENTITY
+✕ INVALID
+
+Then show:
+
+FIDES GATE DECISION
+STRICTEST POLICY
+
+This is the core intellectual concept of the product.
+
+The crawler can SAY it is doing RAG.
+
+FIDES GATE requires the crawler to PROVE who it is.
+
+==================================================
+REQUEST STREAM
+==================================================
+
+Keep Request Stream.
+
+Make it one of the strongest screens in the product.
+
+Show live requests in a clean table.
+
+Columns:
+
+TIME
+CRAWLER
+CLAIMED INTENT
+IDENTITY
+DECISION
+EVIDENCE
+
+Example:
+
+22:41
+GPTBot
+SEARCH
+✓ VERIFIED
+SNIPPET
+
+22:42
+ClaudeBot
+RAG
+✓ VERIFIED
+FULL + CANARY
+
+22:42
+UnknownBot
+RAG
+✕ INVALID
+STRICTEST POLICY
+
+22:43
+PerplexityBot
+SEARCH
+✓ VERIFIED
+SNIPPET
+
+Clicking a request should open a detail panel.
+
+The detail panel should show:
+
+Crawler
+Claimed intent
+Signature status
+Identity verification
+Policy applied
+Payload returned
+Forensic evidence
+Ledger event if applicable
+
+==================================================
+ACCESS POLICIES
+==================================================
+
+Rename "Intent Policies" to:
+
+ACCESS POLICIES
+
+Make this page extremely easy to understand.
+
+Display the policy as:
+
+SEARCH
+Short snippet
+
+VERIFIED RAG
+Full content + semantic canary
+
+TRAINING
+HTTP 402 + licensing terms
+
+Then prominently show:
+
+UNVERIFIED CRAWLER
+↓
+STRICTEST POLICY
+
+This should be one of the most visually important statements on the page.
+
+Also show that FIDES GATE is compatible with existing licensing infrastructure.
+
+For example:
+
+RSL-compatible licensing
+HTTP 402
+Content Signals compatible
+
+Do NOT make FIDES GATE look like another competing licensing standard.
+
+It is the verification layer on top of existing licensing systems.
+
+==================================================
+PUBLIC LEDGER
+==================================================
+
+KEEP Public Ledger.
+
+This is the major differentiator.
+
+However, stop making it look like a blockchain explorer.
+
+Remove or hide:
+
+- Block height
+- blockchain terminology
+- chain mining terminology
+- unnecessary blockchain-looking statistics
+
+FIDES GATE uses an append-only hash-chained ledger.
+
+The UI should say:
+
+PUBLIC ACCOUNTABILITY LEDGER
+
+or:
+
+VERIFICATION LEDGER
+
+Show events like:
+
+--------------------------------------------
+
+22:42:18
+
+UNKNOWN / SPOOFED
+
+Claimed Intent
+RAG
+
+Identity
+✕ INVALID SIGNATURE
+
+Action
+STRICTEST POLICY APPLIED
+
+Evidence
+REQUEST HASH + CANARY SIGNAL
+
+Event Hash
+8b7f...91a
+
+--------------------------------------------
+
+Another example:
+
+22:41:52
+
+ClaudeBot
+
+Claimed Intent
+RAG
+
+Identity
+✓ VERIFIED
+
+Action
+FULL CONTENT + CANARY
+
+Status
+COMPLIANT
+
+The ledger should feel public, transparent, and forensic.
+
+Do not pretend it is a decentralized blockchain.
+
+Use terminology like:
+
+- append-only
+- hash-chained
+- tamper-evident
+- evidence hash
+- timestamp
+- verification event
+
+==================================================
+CANARY DETECTION
+==================================================
+
+Do NOT make Canary Detector a major navigation destination.
+
+The canary functionality is important, but it should be contextual.
+
+For a RAG request, provide:
+
+VIEW FORENSIC EVIDENCE
+
+Clicking it should show:
+
+FORENSIC SIGNAL
+
+Original phrase:
+"rapidly expanded"
+
+Crawler-specific variant:
+"rapidly extended"
+
+Status:
+✓ CANARY MATCH
+
+Interpretation:
+Strong statistical evidence of content reuse
+
+IMPORTANT:
+Do not claim the canary provides absolute or courtroom-grade proof.
+
+The UI should use language such as:
+
+"Statistical evidence of downstream reuse"
+
+rather than:
+
+"Cryptographic proof of theft."
+
+Zero-width watermarking can remain as a secondary signal, but it must not be presented as the primary security mechanism.
+
+==================================================
+THREAT ANALYTICS
+==================================================
+
+Remove Threat Analytics from the main navigation unless the existing implementation contains genuinely useful, real data.
+
+Do NOT display meaningless:
+
+- threat scores
+- risk percentages
+- fake graphs
+- arbitrary security ratings
+
+If analytics are retained, keep them extremely simple and tied to actual events:
+
+Verified requests
+Unverified requests
+Downgraded requests
+Ledger events
+
+Otherwise hide the analytics page for now.
+
+==================================================
+ARCHITECTURE
+==================================================
+
+Do not make Architecture a primary navigation item.
+
+The architecture can be represented inside a secondary informational page or modal if useful.
+
+The conceptual architecture is:
+
+AI CRAWLER
+↓
+FIDES GATE
+↓
+IDENTITY VERIFICATION
+↓
+INTENT
+↓
+ACCESS POLICY
+↓
+PAYLOAD / BLOCK / 402
+↓
+FORENSIC SIGNAL
+↓
+PUBLIC LEDGER
+↓
+PUBLISHER
+
+If there is an architecture diagram already, preserve it if useful but move it out of the main workflow.
+
+==================================================
+SETTINGS
+==================================================
+
+Keep Settings functional if already implemented.
+
+But make it secondary.
+
+Settings should not compete visually with:
+
+- Control Room
+- Request Stream
+- Crawler Registry
+- Access Policies
+- Public Ledger
+
+==================================================
+DO NOT BREAK BACKEND FUNCTIONALITY
+==================================================
+
+IMPORTANT:
+
+Do not delete working APIs.
+
+Do not remove Ed25519 verification.
+
+Do not remove crawler identity data.
+
+Do not remove request logging.
+
+Do not remove semantic canary generation/detection.
+
+Do not remove HTTP 402 behavior.
+
+Do not remove the ledger.
+
+Do not replace real functionality with static mock UI.
+
+If current functionality is mocked, keep it working but structure it so the demo can later connect to the real implementation.
+
+First inspect the existing implementation and reuse existing components, data, APIs, and routes wherever possible.
+
+==================================================
+DEMO-FIRST DESIGN
+==================================================
+
+The UI must be designed around this exact hackathon demonstration.
+
+DEMO 1 — LEGITIMATE SEARCH
+
+Crawler:
+GPTBot
+
+Signature:
+VALID
+
+Intent:
+SEARCH
+
+FIDES GATE:
+✓ VERIFIED
+
+Result:
+SHORT SNIPPET
+
+--------------------------------------------------
+
+DEMO 2 — LEGITIMATE RAG
+
+Crawler:
+ClaudeBot
+
+Signature:
+VALID
+
+Intent:
+RAG
+
+FIDES GATE:
+✓ VERIFIED
+
+Result:
+FULL CONTENT + CANARY
+
+Open forensic evidence.
+
+Show the canary.
+
+--------------------------------------------------
+
+DEMO 3 — SPOOFING ATTACK
+
+Crawler:
+Unknown / Spoofed
+
+Claims:
+X-Purpose: rag
+
+Signature:
+INVALID
+
+FIDES GATE:
+✕ UNVERIFIED
+
+Decision:
+STRICTEST POLICY
+
+Then immediately show:
+
+✓ LEDGER EVENT CREATED
+
+Navigate to Public Ledger.
+
+The new event should be clearly visible.
+
+This should be the main "wow" moment.
+
+==================================================
+IMPORTANT PRODUCT LANGUAGE
+==================================================
+
+Use consistent terminology.
+
+Prefer:
+
+"Declared Intent"
+
+"Verified Identity"
+
+"Identity Verification"
+
+"Strictest Policy"
+
+"Access Decision"
+
+"Forensic Evidence"
+
+"Semantic Canary"
+
+"Evidence Hash"
+
+"Public Accountability Ledger"
+
+"Tamper-Evident"
+
+"HTTP 402"
+
+"RSL-Compatible"
+
+Avoid overusing:
+
+"Threat"
+
+"Attack"
+
+"Blockchain"
+
+"Mining"
+
+"Cyber Warfare"
+
+"Risk Score"
+
+unless genuinely necessary.
+
+FIDES GATE is infrastructure, not a SOC dashboard.
+
+==================================================
+VISUAL HIERARCHY
+==================================================
+
+The interface should visually prioritize:
+
+1. Identity verification
+2. Intent
+3. Access decision
+4. Forensic evidence
+5. Public ledger
+
+Everything else is secondary.
+
+Use clear status badges:
+
+✓ VERIFIED
+✕ UNVERIFIED
+⚠ DOWNGRADED
+✓ ALLOWED
+✕ BLOCKED
+402 LICENSE REQUIRED
+
+Make these states immediately understandable.
+
+==================================================
+RESPONSIVE / POLISH
+==================================================
+
+Keep the existing professional visual style.
+
+Fix:
+
+- unnecessary empty space
+- excessive card density
+- inconsistent spacing
+- unclear hierarchy
+- overly decorative metrics
+- redundant information
+- navigation overload
+
+Ensure the UI works at common desktop resolutions.
+
+Do not introduce unnecessary animations.
+
+Use subtle transitions only where they improve understanding.
+
+==================================================
+FINAL INFORMATION ARCHITECTURE
+==================================================
+
+The final application should feel approximately like:
+
+FIDES GATE
+VERIFICATION INFRA
+
+OPERATIONS
+  Control Room
+  Request Stream
+
+SECURITY
+  Crawler Registry
+  Access Policies
+
+ACCOUNTABILITY
+  Public Ledger
+
+Settings
+
+And the conceptual flow should be:
+
+WHO ARE YOU?
+↓
+Ed25519 verification
+
+WHAT DO YOU WANT?
+↓
+SEARCH / RAG / TRAINING
+
+WHAT ARE YOU ALLOWED TO RECEIVE?
+↓
+SNIPPET / FULL + CANARY / 402
+
+WHAT HAPPENED?
+↓
+PUBLIC ACCOUNTABILITY LEDGER
+
+==================================================
+FINAL PRODUCT MESSAGE
+==================================================
+
+The application should reinforce this message:
+
+"Every AI licensing standard tells a crawler what it's allowed to do.
+FIDES GATE verifies who is asking, controls what they receive, and catches them when they lie."
+
+Alternative shorter message:
+
+"Don't just trust the crawler. Verify it."
+
+The final UI should make this concept obvious without requiring a user to read documentation.
+
+==================================================
+EXECUTION INSTRUCTIONS
+==================================================
+
+Before making changes:
+
+1. Inspect the existing repository.
+2. Identify the current routing structure.
+3. Identify existing dashboard components.
+4. Identify existing crawler registry implementation.
+5. Identify existing request stream implementation.
+6. Identify existing policy implementation.
+7. Identify existing ledger implementation.
+8. Identify existing canary implementation.
+9. Identify the current design system/styles.
+10. Reuse existing working functionality.
+
+Then:
+
+1. Refactor the navigation.
+2. Make Control Room the primary landing page.
+3. Simplify Crawler Registry.
+4. Simplify Request Stream.
+5. Rename Intent Policies to Access Policies.
+6. Redesign Public Ledger around accountability rather than blockchain.
+7. Move forensic/canary functionality into request details.
+8. Hide/remove unnecessary analytics and metrics.
+9. Preserve all functional backend behavior.
+10. Ensure the spoofed crawler demo works end-to-end.
+11. Ensure the UI clearly shows:
+    Declared Intent vs Verified Identity.
+12. Ensure the ledger updates after an unverified request.
+13. Test all routes.
+14. Test the demo flow.
+15. Fix any TypeScript/build/runtime errors.
+16. Do not stop at a visual mockup — the existing functionality must continue working.
+
+IMPORTANT:
+Do not ask me for approval after every small change.
+Inspect the application, make the changes, test them, and provide a concise summary of what you changed and any remaining issues.
+
+The end result should be a focused, believable, hackathon-ready FIDES GATE product — not an oversized generic cybersecurity dashboard.
