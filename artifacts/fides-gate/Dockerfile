@@ -16,5 +16,5 @@ FROM node:22-alpine
 WORKDIR /app
 COPY --from=build /app/artifacts/fides-gate/dist/public ./dist/public
 RUN npm install -g serve
-EXPOSE 23502
-CMD ["serve", "-s", "dist/public", "-l", "23502"]
+EXPOSE 10000
+CMD ["sh", "-c", "serve -s dist/public -l ${PORT:-10000}"]
