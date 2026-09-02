@@ -32,7 +32,7 @@ app.use(
 app.use(express.static(frontendPath));
 
 // React routing fallback
-app.get("*", (req, res) => {
+app.use((req, res) => {
   res.sendFile(path.join(frontendPath, "index.html"));
 });
 
